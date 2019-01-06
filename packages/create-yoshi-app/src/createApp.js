@@ -15,7 +15,7 @@ const verifyMinimumNodeVersion = require('./verifyMinimumNodeVersion');
 module.exports = async (workingDir, projectDirName) => {
   verifyWorkingDirectory(workingDir);
   verifyRegistry(workingDir);
-  verifyMinimumNodeVersion(`8.7.0`);
+  verifyMinimumNodeVersion(`10.14.2`);
 
   clearConsole();
 

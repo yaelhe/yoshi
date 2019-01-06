@@ -27,7 +27,7 @@
     "@types/express": "~4.0.0",
     "@types/chai": "~4.0.0",
     "@types/mocha": "~2.2.0",
-    "@types/node": "^8.0.0",
+    "@types/node": "^10.0.0",
     "@wix/wix-bootstrap-testkit": "latest",
     "@wix/wix-config-emitter": "latest",
     "@wix/wix-rpc-testkit": "latest"
