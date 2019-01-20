@@ -44,7 +44,7 @@ describe('output', () => {
     const result = await global.scripts.build();
 
     expect(result.rejected).toBeTruthy();
-    expect(result.stderr).toMatch('SyntaxError: Unexpected token (1:9)');
+    expect(result.stderr).toMatch('Unexpected token (1:9)');
   });
 
   it('fails with css syntax errors', async () => {
