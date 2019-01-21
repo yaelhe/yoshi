@@ -13,6 +13,9 @@
   "peerDependencies": {
     "@babel/core": "^7.1.2"
   },
+  "devDependencies": {
+    "@babel/core": "^7.1.2"
+  },
   "dependencies": {
     "babel-plugin-dynamic-import-node": "^2.2.0",
     "@babel/plugin-syntax-dynamic-import": "^7.0.0",
