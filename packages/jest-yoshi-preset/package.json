@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "babel-jest": "^23.4.2",
+    "babel-preset-yoshi": "4.0.0",
     "globby": "^8.0.2",
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-yoshi-bootstrap": "3.26.0",
