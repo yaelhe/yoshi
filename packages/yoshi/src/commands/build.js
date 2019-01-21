@@ -19,7 +19,6 @@ const {
 const {
   watchMode,
   isTypescriptProject,
-  isBabelProject,
   shouldExportModule,
   shouldRunWebpack,
   shouldRunLess,
@@ -249,7 +248,9 @@ module.exports = runner.command(
             project: 'tsconfig.json',
             rootDir: '.',
             outDir: globs.dist({ esTarget }),
-            ...(esTarget ? { module: experimentalTSTarget ? 'esNext' : 'es2015' } : {}),
+            ...(esTarget
+              ? { module: experimentalTSTarget ? 'esNext' : 'es2015' }
+              : {}),
           }),
         );
         if (esTarget) {
@@ -262,7 +263,7 @@ module.exports = runner.command(
             }),
           );
         }
-      } else if (isBabelProject() && runIndividualTranspiler) {
+      } else if (runIndividualTranspiler) {
         transpilations.push(
           babel(
             {

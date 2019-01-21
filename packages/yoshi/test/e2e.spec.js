@@ -246,10 +246,7 @@ describe('Aggregator: e2e', () => {
           "version": "1.0.4",\n
           "yoshi": ${JSON.stringify(
             Object.assign(cdnConfigurations(), { runIndividualTranspiler }),
-          )},
-          "babel": { "plugins": ["${require.resolve(
-            '@babel/plugin-transform-modules-commonjs',
-          )}"]}
+          )}
         }`,
     });
   }

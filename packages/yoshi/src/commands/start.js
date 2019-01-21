@@ -31,7 +31,6 @@ const {
 const globs = require('yoshi-config/globs');
 const {
   isTypescriptProject,
-  isBabelProject,
   shouldRunLess,
   shouldRunSass,
   shouldTransformHMRRuntime,
@@ -262,24 +261,19 @@ module.exports = runner.command(
         return appServer();
       }
 
-      if (isBabelProject()) {
-        watch(
-          { pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'] },
-          async changed => {
-            await babel({ pattern: changed, target: 'dist', sourceMaps: true });
-            await appServer();
-          },
-        );
+      watch(
+        { pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'] },
+        async changed => {
+          await babel({ pattern: changed, target: 'dist', sourceMaps: true });
+          await appServer();
+        },
+      );
 
-        await babel({
-          pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'],
-          target: 'dist',
-          sourceMaps: true,
-        });
-        return appServer();
-      }
-
-      watch({ pattern: globs.babel }, appServer);
+      await babel({
+        pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'],
+        target: 'dist',
+        sourceMaps: true,
+      });
 
       return appServer();
     }

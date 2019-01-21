@@ -243,11 +243,6 @@ describe('Aggregator: Test', () => {
             },
           },
           {},
-          {
-            babel: {
-              presets: [require.resolve('babel-preset-yoshi')],
-            },
-          },
         ),
         'pom.xml': fx.pom(),
         'protractor.conf.js': fx.protractorConf({
@@ -582,9 +577,6 @@ describe('Aggregator: Test', () => {
               await import("./dynamic");
             })();
           `,
-          'babel.config.js': `module.exports = {
-              presets: [require.resolve('babel-preset-yoshi')],
-            }`,
           'src/dynamic.js': `
             document.body.innerHTML = "<h1>Dynamic</h1>";
           `,
@@ -645,9 +637,6 @@ describe('Aggregator: Test', () => {
         .setup({
           ...setupMediaFilesExtensions(imageExtensions, 'image'),
           ...setupMediaFilesExtensions(audioExtensions, 'audio'),
-          '.babelrc': `{"plugins": ["${require.resolve(
-            '@babel/plugin-transform-modules-commonjs',
-          )}"]}`,
           'test/mocha-setup.js': 'global.foo = 123',
           'src/getData1.graphql': 'query GetData1 { id, name }',
           'src/getData2.gql': 'query GetData2 { id, name }',
@@ -874,7 +863,6 @@ describe('Aggregator: Test', () => {
             'test/bar.js': 'export default 5;',
             'test/some.spec.js': `import foo from './bar';`,
             'package.json': fx.packageJson({ transpileTests: false }),
-            '.babelrc': JSON.stringify({ presets: ['yoshi'] }),
           })
           .execute('test', ['--mocha']);
 
@@ -914,9 +902,6 @@ describe('Aggregator: Test', () => {
         it('should transpile explicitly configured externalUnprocessedModules', function() {
           const res = customTest
             .setup({
-              '.babelrc': `{"plugins": ["${require.resolve(
-                '@babel/plugin-transform-modules-commonjs',
-              )}"]}`,
               'node_modules/my-unprocessed-module/index.js': 'export default 1',
               'test/some.js': `import x from 'my-unprocessed-module'; export default x => x`,
               'test/some.spec.js': `import identity from './some'; it.only("pass", () => 1);`,
@@ -936,7 +921,6 @@ describe('Aggregator: Test', () => {
         it('should transpile es modules w/o any configurations', () => {
           const res = customTest
             .setup({
-              '.babelrc': '{}',
               'test/some.spec.js': `
               import assert from 'assert';
               it.only("pass", () => {

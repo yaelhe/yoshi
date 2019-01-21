@@ -44,9 +44,6 @@ describe('Aggregator: Build', () => {
       resp = test
         .setup(
           {
-            '.babelrc': `{"presets": [["${require.resolve(
-              '@babel/preset-env',
-            )}", {"modules": false}]]}`,
             '.bowerrc': JSON.stringify(bowerrc, null, 2),
             'petri-specs/specs.infra.Dummy.json': fx.petriSpec(),
             'src/a.js': 'export default "I\'m a module!";',
@@ -432,9 +429,6 @@ describe('Aggregator: Build', () => {
       test = tp.create();
       resp = test
         .setup({
-          '.babelrc': `{"presets": ["${require.resolve(
-            'babel-preset-yoshi',
-          )}"]}`,
           'src/a.js': `import {xxx} from './b'; console.log(xxx);`,
           'src/b.js': `export const xxx = 111111; export const yyy = 222222;`,
           'package.json': fx.packageJson({
@@ -527,9 +521,6 @@ describe('Aggregator: Build', () => {
 
       resp = test
         .setup({
-          '.babelrc': `{"presets": [["${require.resolve(
-            '@babel/preset-env',
-          )}", {"modules": false}]]}`,
           'src/a.js': `export default "I'm a module!"; import './a.scss'; import './a.st.css'; require('lodash/map')`,
           'src/a.scss': `.x {.y {display: flex;}}`,
           'src/a.st.css': `.root {.stylableClass {color: pink;}}`,
@@ -637,9 +628,6 @@ describe('Aggregator: Build', () => {
           'something.js': fx.angularJs(),
           'src/styles/style.scss': `.a {.b {color: red;}} .c{margin: 10px 20px 10px 20px;}`,
           'tsconfig.json': fx.tsconfig(),
-          '.babelrc': `{"plugins": ["${require.resolve(
-            '@babel/plugin-transform-block-scoping',
-          )}"]}`,
           'package.json': fx.packageJson(
             {
               entry: './client',
@@ -972,7 +960,6 @@ describe('Aggregator: Build', () => {
       it('should not transpile if runIndividualTranspiler = false', () => {
         const resp = test
           .setup({
-            '.babelrc': '{}',
             'src/b.ts': 'const b = 2;',
             'src/a/a.js': 'const a = 1;',
             'package.json': fx.packageJson({
@@ -1008,7 +995,6 @@ describe('Aggregator: Build', () => {
         it('should fail with exit code 1', () => {
           const resp = test
             .setup({
-              '.babelrc': '{}',
               'src/a.js': 'function ()',
               'package.json': fx.packageJson(),
               'pom.xml': fx.pom(),
@@ -1079,7 +1065,6 @@ describe('Aggregator: Build', () => {
       it('should fail when a module has missing exports', () => {
         const resp = test
           .setup({
-            '.babelrc': '{}',
             'src/client.js': `import { hello } from './hello'; console.log(hello);`,
             'src/hello.js': `const hello = 'world'; export default 'world';`,
             'package.json': fx.packageJson(),
@@ -1148,9 +1133,6 @@ describe('Aggregator: Build', () => {
             'src/foo.js': "console.log('bar')",
             'package.json': JSON.stringify({
               name: 'my-project',
-              babel: {
-                presets: [require.resolve('babel-preset-yoshi')],
-              },
             }),
           })
           .execute('build');

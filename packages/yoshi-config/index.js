@@ -73,7 +73,6 @@ const loadConfig = () => {
     enhancedTpaStyle: getConfig('enhancedTpaStyle', false),
     features: getConfig('features', {}),
     externals: getConfig('externals', []),
-    babel: _.get(packagejson, 'babel'),
     transpileTests: getConfig('transpileTests', true),
     runIndividualTranspiler: getConfig('runIndividualTranspiler', true),
     jestConfig: _.get(packagejson, 'jest', {}),

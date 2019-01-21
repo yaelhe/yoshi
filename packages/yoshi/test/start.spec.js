@@ -62,7 +62,6 @@ describe('Aggregator: Start', () => {
               className: PropTypes.string
             };`,
               'src/styles.css': `.a { color: red }`,
-              '.babelrc': `{"presets": ["babel-preset-yoshi"]}`,
               'package.json': fx.packageJson(),
             })
             .spawn('start', '--production');
@@ -280,7 +279,6 @@ describe('Aggregator: Start', () => {
           .setup({
             'src/client.js': `import { render } from 'react-dom';
               render(<App />, rootEl);`,
-            '.babelrc': `{"presets": ["babel-preset-yoshi"]}`,
             'package.json': fx.packageJson(
               {
                 hmr: 'auto',
@@ -606,7 +604,6 @@ describe('Aggregator: Start', () => {
               'index.js': `require('./src/server')`,
               'package.json': fx.packageJson(),
               'pom.xml': fx.pom(),
-              '.babelrc': '{}',
             })
             .spawn('start');
 
@@ -680,7 +677,6 @@ describe('Aggregator: Start', () => {
                 process.on('SIGHUP', () => console.log('onRestart'));
               `,
               'package.json': fx.packageJson(),
-              '.babelrc': '{}',
             })
             .spawn('start', ['--manual-restart']);
         });
@@ -794,7 +790,6 @@ describe('Aggregator: Start', () => {
           'dist/src/old.js': `const hello = "world!";`,
           'src/new.js': 'const world = "hello!";',
           'package.json': fx.packageJson(),
-          '.babelrc': '{}',
         })
         .spawn('start');
 
