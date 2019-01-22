@@ -136,7 +136,7 @@ describe('Aggregator: e2e', () => {
       this.timeout(60000);
 
       const res = test
-        .setup(singleModuleWithJasmineAndES6Imports(true))
+        .setup(singleModuleWithJasmineAndES6Imports())
         .execute('test', ['--protractor'], outsideTeamCity);
 
       expect(res.code).to.equal(0);
@@ -146,17 +146,6 @@ describe('Aggregator: e2e', () => {
       expect(fx.e2eTestJasmineES6Imports()).to.contain(
         `import path from 'path'`,
       );
-    });
-
-    it('should not use @babel/register', function() {
-      this.timeout(60000);
-
-      const res = test
-        .setup(singleModuleWithJasmineAndES6Imports(false))
-        .execute('test', ['--protractor'], outsideTeamCity);
-
-      expect(res.code).to.equal(1);
-      expect(res.stdout).to.match(/Unexpected (identifier|token)/);
     });
   });
 
@@ -238,15 +227,13 @@ describe('Aggregator: e2e', () => {
     };
   }
 
-  function singleModuleWithJasmineAndES6Imports(runIndividualTranspiler) {
+  function singleModuleWithJasmineAndES6Imports() {
     return Object.assign(singleModuleWithJasmine(), {
       'dist/test/subFolder/some.e2e.js': fx.e2eTestJasmineES6Imports(),
       'package.json': `{
           "name": "a",\n
           "version": "1.0.4",\n
-          "yoshi": ${JSON.stringify(
-            Object.assign(cdnConfigurations(), { runIndividualTranspiler }),
-          )}
+          "yoshi": ${JSON.stringify(Object.assign(cdnConfigurations()))}
         }`,
     });
   }

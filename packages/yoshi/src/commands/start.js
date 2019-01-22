@@ -264,7 +264,15 @@ module.exports = runner.command(
       watch(
         { pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'] },
         async changed => {
-          await babel({ pattern: changed, target: 'dist', sourceMaps: true });
+          await babel({
+            pattern: changed,
+            target: 'dist',
+            sourceMaps: true,
+
+            babelrc: false,
+            configFile: false,
+            presets: [[require.resolve('babel-preset-yoshi')]],
+          });
           await appServer();
         },
       );
@@ -273,6 +281,10 @@ module.exports = runner.command(
         pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'],
         target: 'dist',
         sourceMaps: true,
+
+        babelrc: false,
+        configFile: false,
+        presets: [[require.resolve('babel-preset-yoshi')]],
       });
 
       return appServer();

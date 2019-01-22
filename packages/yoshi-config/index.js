@@ -74,7 +74,6 @@ const loadConfig = () => {
     features: getConfig('features', {}),
     externals: getConfig('externals', []),
     transpileTests: getConfig('transpileTests', true),
-    runIndividualTranspiler: getConfig('runIndividualTranspiler', true),
     jestConfig: _.get(packagejson, 'jest', {}),
     petriSpecsConfig: getConfig('petriSpecs', {}),
     performanceBudget: getConfig('performance'),

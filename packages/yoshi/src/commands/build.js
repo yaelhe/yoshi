@@ -9,7 +9,6 @@ const globs = require('yoshi-config/globs');
 const path = require('path');
 const { STATS_FILE } = require('yoshi-config/paths');
 const {
-  runIndividualTranspiler,
   petriSpecsConfig,
   clientProjectName,
   isAngularProject,
@@ -242,7 +241,7 @@ module.exports = runner.command(
     function transpileJavascript({ esTarget } = {}) {
       const transpilations = [];
 
-      if (isTypescriptProject() && runIndividualTranspiler) {
+      if (isTypescriptProject()) {
         transpilations.push(
           typescript({
             project: 'tsconfig.json',
@@ -263,12 +262,16 @@ module.exports = runner.command(
             }),
           );
         }
-      } else if (runIndividualTranspiler) {
+      } else {
         transpilations.push(
           babel(
             {
               pattern: globs.babel,
-              target: globs.dist({ esTarget }),
+              target: globs.dist({ esTarget: false }),
+
+              babelrc: false,
+              configFile: false,
+              presets: [[require.resolve('babel-preset-yoshi')]],
             },
             {
               title: 'babel',
@@ -279,9 +282,12 @@ module.exports = runner.command(
           transpilations.push(
             babel({
               pattern: globs.babel,
-              target: globs.dist({ esTarget: false }),
-              plugins: [
-                require.resolve('@babel/plugin-transform-modules-commonjs'),
+              target: globs.dist({ esTarget: true }),
+
+              babelrc: false,
+              configFile: false,
+              presets: [
+                [require.resolve('babel-preset-yoshi'), { modules: false }],
               ],
             }),
           );

@@ -964,22 +964,6 @@ describe('Aggregator: Test', () => {
         expect(res.stdout).to.contain('hello');
       });
 
-      it('should not transpile tests if no tsconfig/.babelrc/babel configuration', () => {
-        const res = customTest
-          .setup({
-            'test/some.js': 'export default x => x',
-            'test/some.spec.js': `import identity from './some'; it.only("pass", () => 1);`,
-            'package.json': `{
-                "name": "a",\n
-                "version": "1.0.4"
-              }`,
-          })
-          .execute('test', ['--mocha']);
-
-        expect(res.code).to.equal(1);
-        expect(res.stderr).to.match(/Unexpected (identifier|token)/);
-      });
-
       describe('stylable integration', () => {
         it('should transform stylable stylesheets', () => {
           const res = customTest

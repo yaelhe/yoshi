@@ -244,7 +244,7 @@ describe('Aggregator: Build', () => {
 
       it('should not create `/es` directory if no `module` field in `package.json` was specified and no commonjs plugin added', () => {
         expect(test.list('dist')).to.not.include('es');
-        expect(test.content('dist/src/a.js')).to.contain('export default');
+        expect(test.content('dist/src/a.js')).to.contain('exports.default');
       });
     });
 
@@ -942,38 +942,6 @@ describe('Aggregator: Build', () => {
       test.teardown();
     });
 
-    describe('build project w/o individual transpilation', () => {
-      it('should not transpile if no tsconfig/babelrc', () => {
-        const resp = test
-          .setup({
-            'src/b.ts': 'const b = 2;',
-            'src/a/a.js': 'const a = 1;',
-            'package.json': fx.packageJson(),
-          })
-          .execute('build');
-
-        expect(resp.stdout).to.not.contain(`Finished 'babel'`);
-        expect(resp.code).to.equal(0);
-        expect(test.list('/')).not.to.include('dist');
-      });
-
-      it('should not transpile if runIndividualTranspiler = false', () => {
-        const resp = test
-          .setup({
-            'src/b.ts': 'const b = 2;',
-            'src/a/a.js': 'const a = 1;',
-            'package.json': fx.packageJson({
-              runIndividualTranspiler: false,
-            }),
-          })
-          .execute('build');
-
-        expect(resp.stdout).to.not.contain(`Finished 'babel'`);
-        expect(resp.code).to.equal(0);
-        expect(test.list('/')).not.to.include('dist');
-      });
-    });
-
     describe('build project with angular dependency and w/o entry files and default entries', () => {
       it('should exit with code 0 and not create bundle.js when there is no custom entry configures and default entry does not exist', () => {
         const res = test
@@ -1102,7 +1070,6 @@ describe('Aggregator: Build', () => {
           })
           .execute('build');
         expect(res.code).to.equal(1);
-        expect(res.stdout).to.contain('Module build failed');
         expect(res.stderr).to.contain('Unexpected token (2:0)');
       });
     });
