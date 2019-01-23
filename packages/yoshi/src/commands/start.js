@@ -273,7 +273,7 @@ module.exports = runner.command(
             configFile: false,
             presets: [[require.resolve('babel-preset-yoshi')]],
           });
-          await appServer();
+          return appServer();
         },
       );
 
