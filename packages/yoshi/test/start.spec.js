@@ -870,9 +870,9 @@ describe('Aggregator: Start', () => {
   }
 
   function checkStdout(str, { backoff = 100, max = 100 } = {}) {
-    return retryPromise({ backoff, max }, () =>
-      test.stdout.indexOf(str) > -1 ? Promise.resolve() : Promise.reject(),
-    );
+    return retryPromise({ backoff, max }, async () => {
+      expect(test.stdout).to.contain(str);
+    });
   }
 
   function fetchCDN(port, { path = '/', backoff = 100, max = 50 } = {}) {
