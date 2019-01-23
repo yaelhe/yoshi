@@ -136,7 +136,16 @@ describe('Aggregator: e2e', () => {
       this.timeout(60000);
 
       const res = test
-        .setup(singleModuleWithJasmineAndES6Imports())
+        .setup(
+          Object.assign(singleModuleWithJasmine(), {
+            'dist/test/subFolder/some.e2e.js': fx.e2eTestJasmineES6Imports(),
+            'package.json': `{
+              "name": "a",\n
+              "version": "1.0.4",\n
+              "yoshi": ${JSON.stringify(Object.assign(cdnConfigurations()))}
+            }`,
+          }),
+        )
         .execute('test', ['--protractor'], outsideTeamCity);
 
       expect(res.code).to.equal(0);
@@ -225,17 +234,6 @@ describe('Aggregator: e2e', () => {
         },
       },
     };
-  }
-
-  function singleModuleWithJasmineAndES6Imports() {
-    return Object.assign(singleModuleWithJasmine(), {
-      'dist/test/subFolder/some.e2e.js': fx.e2eTestJasmineES6Imports(),
-      'package.json': `{
-          "name": "a",\n
-          "version": "1.0.4",\n
-          "yoshi": ${JSON.stringify(Object.assign(cdnConfigurations()))}
-        }`,
-    });
   }
 
   function singleModuleWithJasmine() {
