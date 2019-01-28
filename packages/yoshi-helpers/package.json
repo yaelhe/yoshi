@@ -23,7 +23,8 @@
     "server-destroy": "^1.0.1",
     "ts-node": "^3.3.0",
     "xmldoc": "^1.1.2",
-    "yoshi-config": "3.23.0"
+    "yoshi-config": "3.23.0",
+    "yoshi-helpers": "3.26.0"
   },
   "peerDependencies": {
     "@babel/core": "^7.1.2",

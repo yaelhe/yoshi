@@ -1,7 +1,6 @@
 const babelJest = require('babel-jest');
+const { createBabelConfig } = require('yoshi-helpers');
 
-module.exports = babelJest.createTransformer({
-  presets: [require.resolve('babel-preset-yoshi')],
-  babelrc: false,
-  configFile: false,
-});
+const babelConfig = createBabelConfig();
+
+module.exports = babelJest.createTransformer(babelConfig);

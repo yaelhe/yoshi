@@ -37,6 +37,7 @@ const {
   suffix,
   watch,
   isProduction,
+  createBabelConfig,
 } = require('yoshi-helpers');
 const { debounce } = require('lodash');
 const wixAppServer = require('../tasks/app-server');
@@ -261,17 +262,20 @@ module.exports = runner.command(
         return appServer();
       }
 
+      const baseBabelConfig = createBabelConfig();
+
+      const babelConfig = {
+        ...baseBabelConfig,
+        sourceMaps: true,
+        target: 'dist',
+      };
+
       watch(
         { pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'] },
         async changed => {
           await babel({
             pattern: changed,
-            target: 'dist',
-            sourceMaps: true,
-
-            babelrc: false,
-            configFile: false,
-            presets: [[require.resolve('babel-preset-yoshi')]],
+            ...babelConfig,
           });
           return appServer();
         },
@@ -279,12 +283,7 @@ module.exports = runner.command(
 
       await babel({
         pattern: [path.join(globs.base, '**', '*.js{,x}'), 'index.js'],
-        target: 'dist',
-        sourceMaps: true,
-
-        babelrc: false,
-        configFile: false,
-        presets: [[require.resolve('babel-preset-yoshi')]],
+        ...babelConfig,
       });
 
       return appServer();

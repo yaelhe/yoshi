@@ -22,7 +22,8 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-environment-yoshi-bootstrap": "3.26.0",
     "jest-environment-yoshi-puppeteer": "3.26.0",
-    "ts-jest": "^23.0.1"
+    "ts-jest": "^23.0.1",
+    "yoshi-helpers": "3.26.0"
   },
   "devDependencies": {
     "@stylable/core": "^1.0.0",

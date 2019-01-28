@@ -34,6 +34,7 @@ const {
   inTeamCity: checkInTeamCity,
   isTypescriptProject: checkIsTypescriptProject,
   getProjectArtifactId,
+  createBabelConfig,
 } = require('yoshi-helpers');
 const { addEntry } = require('../src/webpack-utils');
 
@@ -42,6 +43,8 @@ const reStyle = /\.(css|less|scss|sass)$/;
 const reAssets = /\.(png|jpg|jpeg|gif|woff|woff2|ttf|otf|eot|wav|mp3)$/;
 
 const extensions = ['.js', '.jsx', '.ts', '.tsx', '.json'];
+
+const babelConfig = createBabelConfig({ modules: false });
 
 const disableTsThreadOptimization =
   process.env.DISABLE_TS_THREAD_OPTIMIZATION === 'true';
@@ -419,11 +422,7 @@ function createCommonWebpackConfig({
             {
               loader: 'babel-loader',
               options: {
-                babelrc: false,
-                configFile: false,
-                presets: [
-                  [require.resolve('babel-preset-yoshi'), { modules: false }],
-                ],
+                ...babelConfig,
               },
             },
           ],
@@ -744,16 +743,15 @@ function createServerWebpackConfig({ isDebug = true, isHmr = false } = {}) {
           }
 
           if (rule.loader === 'babel-loader') {
+            const serverBabelConfig = createBabelConfig({
+              modules: false,
+              targets: 'current node',
+            });
+
             return {
               ...rule,
               options: {
-                ...rule.options,
-                presets: [
-                  [
-                    require.resolve('babel-preset-yoshi'),
-                    { modules: false, targets: 'current node' },
-                  ],
-                ],
+                ...serverBabelConfig,
               },
             };
           }

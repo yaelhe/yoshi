@@ -22,6 +22,7 @@ const {
   shouldRunWebpack,
   shouldRunLess,
   shouldRunSass,
+  createBabelConfig,
 } = require('yoshi-helpers');
 const { printAndExitOnErrors } = require('../error-handler');
 
@@ -263,15 +264,14 @@ module.exports = runner.command(
           );
         }
       } else {
+        const babelConfig = createBabelConfig();
+
         transpilations.push(
           babel(
             {
               pattern: globs.babel,
               target: globs.dist({ esTarget: false }),
-
-              babelrc: false,
-              configFile: false,
-              presets: [[require.resolve('babel-preset-yoshi')]],
+              ...babelConfig,
             },
             {
               title: 'babel',
@@ -279,16 +279,13 @@ module.exports = runner.command(
           ),
         );
         if (esTarget) {
+          const esBabelConfig = createBabelConfig({ modules: false });
+
           transpilations.push(
             babel({
               pattern: globs.babel,
               target: globs.dist({ esTarget: true }),
-
-              babelrc: false,
-              configFile: false,
-              presets: [
-                [require.resolve('babel-preset-yoshi'), { modules: false }],
-              ],
+              ...esBabelConfig,
             }),
           );
         }
