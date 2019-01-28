@@ -119,6 +119,9 @@ function overrideRules(rules, patch) {
     if (rule.oneOf) {
       rule = { ...rule, oneOf: overrideRules(rule.oneOf, patch) };
     }
+    if (rule.use) {
+      rule = { ...rule, use: overrideRules(rule.use, patch) };
+    }
     return rule;
   });
 }
@@ -736,6 +739,21 @@ function createServerWebpackConfig({ isDebug = true, isHmr = false } = {}) {
               options: {
                 ...rule.options,
                 emitFile: false,
+              },
+            };
+          }
+
+          if (rule.loader === 'babel-loader') {
+            return {
+              ...rule,
+              options: {
+                ...rule.options,
+                presets: [
+                  [
+                    require.resolve('babel-preset-yoshi'),
+                    { modules: false, targets: 'current node' },
+                  ],
+                ],
               },
             };
           }
