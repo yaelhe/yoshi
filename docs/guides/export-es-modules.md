@@ -21,8 +21,7 @@ Add `module: 'path/to/entry.js'` in your `package.json`. For typescript project,
 
 ### How
 
-1. For typescript project, no special `tsconfig.json` change is needed.
-2. Specify path to your entry file with `module: 'dist/es/src/entry.js'`. Please note that Yoshi will create `es` directory with untranspiled modules near your usual transformation output (`dist/src` and `dist/es/src`).
+1. Specify path to your entry file with `module: 'dist/es/src/entry.js'`. Please note that Yoshi will create `es` directory with untranspiled modules near your usual transformation output (`dist/src` and `dist/es/src`).
 
 _package.json_
 
