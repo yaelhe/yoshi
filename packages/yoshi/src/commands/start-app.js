@@ -4,6 +4,10 @@ process.env.NODE_ENV = 'development';
 const parseArgs = require('minimist');
 
 const cliArgs = parseArgs(process.argv.slice(2), {
+  alias: {
+    server: 'entry-point',
+    https: 'ssl',
+  },
   default: {
     server: 'index.js',
     https: false,
@@ -101,10 +105,17 @@ module.exports = async () => {
   const devServer = await createDevServer(clientCompiler, {
     publicPath: clientConfig.output.publicPath,
     port: project.servers.cdn.port,
+    https,
     host,
   });
 
   serverCompiler.watch({ 'info-verbosity': 'none' }, async (error, stats) => {
+    // We save the result of this build to webpack-dev-server's internal state so the last
+    // server build results are sent to the browser on every refresh
+    //
+    // https://github.com/webpack/webpack-dev-server/blob/master/lib/Server.js#L144
+    devServer._stats = stats;
+
     const jsonStats = stats.toJson();
 
     // If the spawned server process has died, restart it

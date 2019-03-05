@@ -1,13 +1,18 @@
 {
+  "automerge": true,
   "enabledManagers": [
     "npm"
   ],
+  "groupName": "dependencies (weekly)",
   "labels": [
     "PR: Chore :construction_worker:"
   ],
   "major": {
     "enabled": false
   },
+  "schedule": [
+    "after 3:00am and before 7:00am on thursday"
+  ],
   "packageRules": [
     {
       "packagePatterns": [

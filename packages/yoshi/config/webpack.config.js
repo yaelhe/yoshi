@@ -66,7 +66,7 @@ const computedSeparateCss =
 
 const artifactVersion = process.env.ARTIFACT_VERSION;
 
-const staticAssetName = 'media/[name].[ext]?[hash]';
+const staticAssetName = 'media/[name].[ext]';
 
 // default public path
 let publicPath = '/';
@@ -215,7 +215,6 @@ const getStyleLoaders = ({
               // https://github.com/bholloway/resolve-url-loader
               {
                 loader: 'resolve-url-loader',
-                options: { attempts: 1 },
               },
             ]
           : [
@@ -317,13 +316,6 @@ function createCommonWebpackConfig({
             // this is a TypeScript project
             new (require('fork-ts-checker-webpack-plugin'))({
               tsconfig: TSCONFIG_FILE,
-              // https://github.com/facebook/create-react-app/pull/5607
-              compilerOptions: {
-                module: 'esnext',
-                moduleResolution: 'node',
-                resolveJsonModule: true,
-                noEmit: true,
-              },
               async: false,
               silent: true,
               checkSyntacticErrors: true,

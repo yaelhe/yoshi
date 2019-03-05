@@ -4,7 +4,7 @@ module.exports = class PlainEnvironment extends PuppeteerEnvironment {
   async setup() {
     await super.setup();
 
-    this.global.scripts = global.scripts;
+    this.global.page.setDefaultNavigationTimeout(10000);
 
     this.global.__DEV__ = true;
   }

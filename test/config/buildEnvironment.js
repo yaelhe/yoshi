@@ -7,7 +7,7 @@ module.exports = class BuildEnvironment extends PuppeteerEnvironment {
 
     this.global.__DEV__ = false;
 
-    this.global.scripts = global.scripts;
+    this.global.page.setDefaultNavigationTimeout(10000);
 
     await this.global.page.setRequestInterception(true);
 

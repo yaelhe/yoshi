@@ -390,6 +390,111 @@ p {
       expect(res.stderr).to.not.contain('src/dontrunonme.scss');
       expect(res.code).to.equal(1);
     });
+
+    it('should not log files with no errors filenames', () => {
+      const badStyle = `
+p {
+  color: #ff0;
+}
+
+
+
+`;
+      const goodStyle = `
+p {
+  $color: #ff0;
+  color: #ff0;
+}`;
+      const res = test
+        .setup({
+          'src/a.scss': goodStyle,
+          'src/b.scss': badStyle,
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`,
+        })
+        .execute('lint', []);
+
+      expect(res.stdout).to.contain(`running stylelint`);
+      expect(res.stderr).not.to.contain('src/a.scss');
+      expect(res.stderr).to.contain('src/b.scss');
+      expect(res.code).to.equal(1);
+    });
+
+    it('should run eslint even if stylelint failed', () => {
+      const badStyle = `
+p {
+  color: #ff0;
+}
+
+
+
+`;
+
+      const res = test
+        .setup({
+          'app/a.scss': badStyle,
+          'app/a.js': `parseInt("1");`,
+          '.eslintrc': fx.eslintrc(),
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`,
+        })
+        .execute('lint', []);
+
+      expect(res.stderr).to.contain('Expected no more than 1 empty line');
+      expect(res.stderr).to.contain('max-empty-lines');
+      expect(res.stderr).to.contain(
+        '1:1  error  Missing radix parameter  radix',
+      );
+      expect(res.code).to.equal(1);
+    });
+
+    it('should run tslint even if stylelint failed', () => {
+      const badStyle = `
+p {
+  color: #ff0;
+}
+
+
+
+`;
+      const res = test
+        .setup({
+          'app/a.scss': badStyle,
+          'app/a.ts': 'parseInt("1")',
+          'package.json': `{
+            "name": "a",\n
+            "version": "1.0.0",\n
+            "stylelint": {
+              "rules": {
+                "max-empty-lines": 1
+              }
+            }
+          }`,
+          'tsconfig.json': fx.tsconfig({ files: ['app/a.ts'] }),
+          'tslint.json': fx.tslint({ radix: true }),
+        })
+        .execute('lint');
+
+      expect(res.code).to.equal(1);
+      expect(res.stderr).to.contain('Expected no more than 1 empty line');
+      expect(res.stderr).to.contain('max-empty-lines');
+      expect(res.stdout).to.contain('radix  Missing radix parameter');
+      expect(res.stderr).to.contain('tslint exited with 1 error');
+    });
   });
 
   describe('Empty state', () => {
